@@ -54,6 +54,6 @@ client
     index: 'your_index_*', // elasticsearch index
     type: 'your_type', // elasticsearch type
     scroll: '1m', // scroll API token life to time
-    body: {}, // elasticsearch query
+    body: query.toJSON(), // elasticsearch query
   })
   .subscribe((result) => console.log(result));
