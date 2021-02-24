@@ -1,0 +1,18 @@
+# Node
+node_modules
+
+# Code Coverage
+.nyc_output
+coverage
+
+# Eslint cache
+.eslintcache
+
+# LOG
+logs
+
+# Backup
+backup
+
+# Note
+note.md
