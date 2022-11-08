@@ -1,10 +1,12 @@
 {
   "name": "wistroni40-elasticsearch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wistron i40 elasticsearch client library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "prepare": "husky install",
+    "husky:set": "./node_modules/.bin/husky set ",
     "eslint": "./node_modules/.bin/eslint --ignore-path .eslintignore ./src/**",
     "eslint:fix": "./node_modules/.bin/eslint ./src/** --fix",
     "test": "nyc --reporter=lcov mocha --require ts-node/register test/**/*.ts",
@@ -38,6 +40,7 @@
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
+    "husky": "^8.0.1",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",

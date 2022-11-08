@@ -29,7 +29,7 @@ export class ElasticClient extends Elasticsearch {
    */
   private async executeScroll(
     response: any,
-    scroll: string = '1m'
+    scroll: string = '1m',
   ): Promise<any[]> {
     const queue: any[] = [response];
     const result: any[] = [];
@@ -41,7 +41,11 @@ export class ElasticClient extends Elasticsearch {
       body.hits.hits.forEach((hit: any) => result.push(hit));
 
       // 如果已經數據總量符合就結束
-      if (result.length >= body.hits.total) {
+      const total =
+        typeof body.hits.total === 'number'
+          ? body.hits.total
+          : body.hits.total.value;
+      if (result.length >= total) {
         break;
       }
 
@@ -50,7 +54,7 @@ export class ElasticClient extends Elasticsearch {
         await this.scroll({
           scroll_id: body._scroll_id,
           scroll,
-        })
+        }),
       );
     }
     return result;
@@ -66,15 +70,15 @@ export class ElasticClient extends Elasticsearch {
    */
   public scrollSearch<T = any>(
     params: Search<object>,
-    options?: TransportRequestOptions
+    options?: TransportRequestOptions,
   ): Observable<T[]> {
     return from(this.search(params, options)).pipe(
       // 執行滾動查詢
-      map((res) => from(this.executeScroll(res, params.scroll))),
+      map(res => from(this.executeScroll(res, params.scroll))),
       // 取出查詢結果
       concatAll(),
       // 將資料從source中取出
-      map((result) => result.map((item) => item._source))
+      map(result => result.map(item => item._source)),
     );
   }
 }
